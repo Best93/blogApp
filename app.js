@@ -22,8 +22,9 @@ indexRoutes = require("./routes/index");
 
 
 //seedBlog();
-mongoose.connect("mongodb://localhost:27017/blogApp", {
-  useNewUrlParser: true
+mongoose.connect("mongodb+srv://bessyBest:Yolande@11@cluster0-mezlo.mongodb.net/test?retryWrites=true&w=majority", {
+  useNewUrlParser: true,
+  useCreateIndex: true
 });
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
