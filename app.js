@@ -21,8 +21,12 @@ blogsRoutes = require("./routes/blogs"),
 indexRoutes = require("./routes/index");
 
 
+
+
+
 //seedBlog();
-mongoose.connect("mongodb+srv://bessyBest:Yolande@11@cluster0-mezlo.mongodb.net/test?retryWrites=true&w=majority", {
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/blogApp";
+mongoose.connect(url, {
   useNewUrlParser: true,
   useCreateIndex: true
 });
