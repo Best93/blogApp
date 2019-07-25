@@ -1,0 +1,37 @@
+
+<% include ../partials/header %>
+
+
+<section>
+        <div class="container ">
+                <div class="breadcrumb">
+            
+                        <h2 class="header">Edit <%= blog.title %></h2>
+                    
+                    
+                    <form action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
+                        <div class="form-group">
+                          <label class="font-weight-bold">Title</label>
+                          <input type="text" class="form-control" name="blog[title]" value="<%= blog.title %>">
+                        </div>
+                        <div class="form-group">
+                          <label class="font-weight-bold">Image</label>
+                          <input type="text" class="form-control" name="blog[image]" value="<%= blog.image %>">
+                        </div>
+                        <div class="form-group">
+                          <label class="font-weight-bold">Blog Content</label>
+                          <textarea class="form-control" name="blog[body]" rows="3"><%= blog.body %></textarea>
+        
+                        </div>
+                        
+                        
+                        <input type="submit" class="btn btn-outline-primary" value="Submit">
+                </form>
+                </div>
+        </div>
+      
+</section>
+
+
+
+<% include ../partials/footer %>

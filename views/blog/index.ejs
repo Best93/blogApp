@@ -1,0 +1,44 @@
+
+<% include ../partials/header %>
+<section class="padding">
+        
+        <div class="container p-3">
+                <div class="jumbotron">
+                               
+                                <div>  <h1>Blogs Posts</h1></div>
+                                <a href="/blogs/new" class="btn btn-primary">Add New Post</a>
+                </div>
+                
+                <div class="content">
+                                <% blogs.forEach(function(blog) {%>
+                                        <div class="row">
+                                                <div class="col-md">
+                                                   <div class="round-container"><img class="rounded" src= "<%= blog.image %> "></div>
+                                                </div>
+                                                
+                                                <div class="col-md">
+                                                         <div><a class="h5"  href="/blogs/<%= blog._id %>"> <%= blog.title %> </a></div>
+                                                
+                                                         <div><span> <%= moment(blog.createdAt).fromNow() %></span></div>
+                                                                
+                                                         <div><p> <%- blog.body.substring(0 , 100) %> ...</p></div>
+                                                         <div><a class="btn btn-outline-info" href="/blogs/<%= blog._id %>">Read More
+                                                          <i class="fas fa-chevron-right"></i></a></div>
+                                                </div>
+                                                
+                                                
+                                               
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                       
+                                    <%}) %>
+                                
+                 </div>  
+
+                
+                      
+              
+        </div>
+</section>
+
+<% include ../partials/footer %>

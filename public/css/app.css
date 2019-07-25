@@ -1,0 +1,58 @@
+i.fa-blog{
+    margin: 0 .5rem;
+}
+img{
+    width: 100%;
+   
+}
+.commentPage{
+    margin: .6rem;
+}
+.content{
+    max-width: 580px;
+    margin: 0 auto;
+    
+
+}
+.padding{
+    padding: .9rem;
+}
+.alert-danger,.alert-success{
+    
+    margin: 1rem auto;
+    max-width: 400px;
+}
+.sign{
+    margin: 0 auto;
+    max-width: 500px;
+}
+.round-container{
+    max-width: 400px;
+    
+}
+.delete{
+    display: inline;
+}
+.landing-font{
+    font-size: 1.2rem;
+}
+section .container .breadcrumb {
+margin:7rem auto;
+box-shadow: 1px 1px 2px 2px #8888;
+background: none;
+max-width: 700px;
+}
+ form{
+    
+    width: 100%;
+
+}
+form div input{
+    width:100%;
+    
+}
+.header{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
