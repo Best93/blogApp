@@ -9,18 +9,18 @@
                         <h2 class="header">Edit <%= blog.title %></h2>
                     
                     
-                    <form action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
+                    <form action="/blogs/<%= blog._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                           <label class="font-weight-bold">Title</label>
-                          <input type="text" class="form-control" name="blog[title]" value="<%= blog.title %>">
+                          <input type="text" class="form-control" name="blog[name]" value="<%= blog.name %>">
                         </div>
                         <div class="form-group">
                           <label class="font-weight-bold">Image</label>
-                          <input type="text" class="form-control" name="blog[image]" value="<%= blog.image %>">
+                          <input type="file" id="image" name="image" accept="image/*">
                         </div>
                         <div class="form-group">
                           <label class="font-weight-bold">Blog Content</label>
-                          <textarea class="form-control" name="blog[body]" rows="3"><%= blog.body %></textarea>
+                          <textarea class="form-control" name="blog[description]" rows="3"><%= blog.description %></textarea>
         
                         </div>
                         

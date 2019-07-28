@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Blog = require("./models/blogs");
 var Comment = require("./models/comments");
 
+/*
 var data = [
   {
     title: " Burger",
@@ -29,6 +30,7 @@ var data = [
       
   }
 ];
+*/
 
 function seedBlog() {
   //Remove all menu
@@ -43,6 +45,7 @@ function seedBlog() {
       }
       console.log("removed comments!");
       //add a few food
+     /* 
       data.forEach(function(seed) {
         Blog.create(seed, function(err, blog) {
           if (err) {
@@ -68,6 +71,7 @@ function seedBlog() {
           }
         });
       });
+      */
     });
   });
   //add a few comments

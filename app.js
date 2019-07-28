@@ -13,7 +13,7 @@ var express = require("express"),
   seedBlog = require("./seeds");
  app.locals.moment = require("moment");
 
-
+ require('dotenv').config();
 
  //require routes
 var commentsRoutes = require("./routes/comments"),

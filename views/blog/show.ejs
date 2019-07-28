@@ -7,7 +7,7 @@
             <div class="content">
                     <div class="breadcrumb">
                     
-                            <h2 class="header"> <%= blog.title %></h2>
+                            <h2 class="header"> <%= blog.name %></h2>
                             <div> <img class="rounded img-thumbnail" src= "<%= blog.image %> "></div>
                                
                            
@@ -17,9 +17,9 @@
                                 
                             <div>
                             <div>
-                                 <p> <em>Submit by</em> <strong><%= blog.author.username %></strong>    </p>
+                                 <p> <em>Submit by</em> <strong><a href="/users/<%= blog.author.id %>"><%= blog.author.username %></a></strong>    </p>
                            </div>
-                                    <p> <%- blog.body %></p>
+                                    <p> <%- blog.description %></p>
                             </div>
                             <% if(currentUser && blog.author.id.equals(currentUser._id)){ %>
 
@@ -136,9 +136,13 @@
           <% }) %>
       </div>
       <!--COMMENT SECTION END-->
+      <div>
+        <a href="/blogs"> See Blogs</a>
       </div>
-                    
+      </div>
+       
             </div>
+           
 
             
                 

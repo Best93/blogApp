@@ -3,10 +3,11 @@ var mongoose = require("mongoose");
 
 // Mongoose/ Model Config
 var blogSchema = new mongoose.Schema({
-    title: String,
+    name: String,
     image: String,
+    imageId:String,
     createdAt: { type: Date, default: Date.now },
-    body: String,
+    description: String,
     author:{
        id:{
          type: mongoose.Schema.Types.ObjectId,

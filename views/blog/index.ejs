@@ -17,11 +17,11 @@
                                                 </div>
                                                 
                                                 <div class="col-md">
-                                                         <div><a class="h5"  href="/blogs/<%= blog._id %>"> <%= blog.title %> </a></div>
+                                                         <div><a class="h5"  href="/blogs/<%= blog._id %>"> <%= blog.name %> </a></div>
                                                 
                                                          <div><span> <%= moment(blog.createdAt).fromNow() %></span></div>
                                                                 
-                                                         <div><p> <%- blog.body.substring(0 , 100) %> ...</p></div>
+                                                         <div><p> <%- blog.description.substring(0, 20) %> ...</p></div>
                                                          <div><a class="btn btn-outline-info" href="/blogs/<%= blog._id %>">Read More
                                                           <i class="fas fa-chevron-right"></i></a></div>
                                                 </div>
@@ -41,4 +41,3 @@
         </div>
 </section>
 
-<% include ../partials/footer %>

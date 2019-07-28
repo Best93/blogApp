@@ -1,0 +1,25 @@
+
+<% include ../partials/header %>
+
+
+<section class="padding ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <img  class="rounded" src="<%= user.avatar %>" alt="profile image">
+                        <div class="card-body">
+                            <h5> <%= user.firstName + " "+  user.lastName %></h5>
+                          
+                        
+                        </div>
+                      </div>
+                </div>
+            </div>
+          
+        </div>
+      
+</section>
+
+
+<% include ../partials/footer %>

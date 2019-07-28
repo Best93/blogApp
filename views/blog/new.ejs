@@ -9,25 +9,27 @@
                         <h2 class="header">New Blog</h2>
                     
                     
-                    <form action="/blogs" method="POST">
+                    <form action="/blogs" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                           <label class="font-weight-bold">Title</label>
-                          <input type="text" class="form-control" name="title" placeholder="title">
+                          <input type="text" class="form-control" name="blog[name]" placeholder="title">
                         </div>
                         <div class="form-group">
                           <label class="font-weight-bold">Image</label>
-                          <input type="text" class="form-control" name="image" placeholder="image">
+                          <input type="file" id="image" name="image" accept="image/*" required>
                         </div>
                         <div class="form-group">
                           <label class="font-weight-bold">Blog Content</label>
-                          <textarea class="form-control" name="body" rows="3" required></textarea>
+                          <input type="text" class="form-control" type="text" name="blog[description]" placeholder="description">
         
                         </div>
                         
                         
                         <input type="submit" class="btn btn-outline-primary" value="Submit">
                 </form>
+                
                 </div>
+                <a href="/blogs">Go Back</a>
         </div>
       
 </section>

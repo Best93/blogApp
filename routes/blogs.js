@@ -2,7 +2,27 @@ var express = require("express");
 var router = express.Router();
 var Blog = require("../models/blogs");
 var middleware =require("../middleware");
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
 
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'di2kty7ll', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // INDEX ROUTE
 router.get("/",  middleware.isLoggedIn, function(req, res){
@@ -23,32 +43,31 @@ router.get("/",  middleware.isLoggedIn, function(req, res){
    res.render("blog/new");
   });
   
-  // CREATE ROUTE
-  router.post("/", middleware.isLoggedIn, function(req,res){
-  
-    //sanitize the input to avoid js code from user input
-   // req.body.blog.body = req.sanitize(req.body.blog.body);
-
-   var name = req.body.title;
-    var image = req.body.image;
-    var desc = req.body.body;
-    var author = {
+  //CREATE - add new blog to DB
+router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
+  cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+    if(err) {
+      req.flash('error', err.message);
+      return res.redirect('back');
+    }
+    // add cloudinary url for the image to the blog object under image property
+    req.body.blog.image = result.secure_url;
+    // add image's public_id to blog object
+    req.body.blog.imageId = result.public_id;
+    // add author to blog
+    req.body.blog.author = {
       id: req.user._id,
       username: req.user.username
-  }
-    var newCampground = {title: name, image: image, body: desc, author:author}
-    console.log(author);
-    // create blog
-  Blog.create(newCampground, function(err, newBlog){
-    if(err){
-      res.render("blog/new");
     }
-    else{
-      console.log( newBlog);
-      res.redirect("/blogs");
-    }
+    Blog.create(req.body.blog, function(err, blog) {
+      if (err) {
+        req.flash('error', err.message);
+        return res.redirect('back');
+      }
+      res.redirect('/blogs/' + blog.id);
+    });
   });
-  });
+});
   
   
   // SHOW ROUTE 
@@ -82,44 +101,54 @@ router.get("/",  middleware.isLoggedIn, function(req, res){
   })
   
   
-  
-  //UPDATED ROUTE 
-  router.put("/:id", middleware.checkBlog, function(req,res){
-  
-    //sanitize the input to avoid js code from user input
-    req.body.blog.body = req.sanitize(req.body.blog.body);
-    
-    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err,updatedBlog){
-      if(err)
-      {
-        res.redirect("/blogs");
-      }
-      else{
-        res.redirect("/blogs/" + req.params.id);
-      }
+  //UPDATE ROUTE
+  router.put("/:id", upload.single('image'), function(req, res){
+    Blog.findById(req.params.id, async function(err, blog){
+        if(err){
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            if (req.file) {
+              try {
+                  await cloudinary.v2.uploader.destroy(blog.imageId);
+                  var result = await cloudinary.v2.uploader.upload(req.file.path);
+                  blog.imageId = result.public_id;
+                  blog.image = result.secure_url;
+              } catch(err) {
+                  req.flash("error", err.message);
+                  return res.redirect("back");
+              }
+            }
+            blog.name = req.body.blog.name;
+            blog.description = req.body.blog.description;
+            blog.save();
+            req.flash("success","Successfully Updated!");
+            res.redirect("/blogs/" + blog._id);
+        }
     });
-  });
-  
+});
+
   
   //DELETE ROUTE
-  router.delete("/:id", middleware.checkBlog, function(req, res){
-    Blog.findByIdAndRemove(req.params.id, function(err){
-      if(err){
-        res.redirect("/blogs");
-      }
-      else{
-        res.redirect("/blogs");
-      }
-    })
-  
-  });
-  //middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
+router.delete('/:id', function(req, res) {
+  Blog.findById(req.params.id, async function(err, blog) {
+    if(err) {
+      req.flash("error", err.message);
+      return res.redirect("back");
     }
-    res.redirect("/login");
-  }
+    try {
+        await cloudinary.v2.uploader.destroy(blog.imageId);
+        blog.remove();
+        req.flash('success', 'Blog deleted successfully!');
+        res.redirect('/blogs');
+    } catch(err) {
+        if(err) {
+          req.flash("error", err.message);
+          return res.redirect("back");
+        }
+    }
+  });
+});
   
   
 

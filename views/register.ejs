@@ -6,13 +6,27 @@
   <div class="container">
       <h1 class="sign p-2">Sign Up!</h1>
       <div class="sign">
-          <form action="/register" method="post">
+          <form action="/register" method="post" enctype="multipart/form-data">
               <div class="form-group">
                   <label class="font-weight-bold">Username</label>
                 <input type="text" class="form-control" name="username" placeholder="username">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
               </div>
               <div class="form-group">
+                  <label class="font-weight-bold">First Name</label>
+              
+                  <input type="text" class="form-control" name="firstName" placeholder="firstName">
+                </div>
+                <div class="form-group">
+                  <label class="font-weight-bold">Last Name</label>
+              
+                  <input type="text" class="form-control" name="lastName" placeholder="lastName">
+                </div>
+                <div class="form-group">
+                  <label class="font-weight-bold">Image</label>
+                  <input type="file" id="image" name="avatar" accept="image/*" required>
+                </div>
+                <div class="form-group">
                   <label class="font-weight-bold">Password</label>
               
                   <input type="password" class="form-control" name="password" placeholder="password">
