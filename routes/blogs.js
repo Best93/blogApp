@@ -25,7 +25,7 @@ cloudinary.config({
 });
 
 // INDEX ROUTE
-router.get("/",  middleware.isLoggedIn, function(req, res){
+router.get("/",  function(req, res){
     Blog.find({}, function(err, blogs){
       if (err)
       {
