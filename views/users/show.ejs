@@ -6,14 +6,34 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card" style="width: 18rem;">
-                        <img  class="rounded" src="<%= user.avatar %>" alt="profile image">
+                    <div >
+                        <img  src="<%= user.avatar %>" alt="profile image">
                         <div class="card-body">
                             <h5> <%= user.firstName + " "+  user.lastName %></h5>
                           
                         
                         </div>
                       </div>
+                </div>
+                <div class="col-md-8 border rounded">
+                        <h5 class="card-header"> <%= user.firstName %>'s Post</h5>
+                        <ul>
+                    <% for( var i = 0; i < blogs.length; i++ ) { %>
+                       
+                     <div>
+                      <li><a href="/blogs/<%= blogs[i].id %>" ><strong><%= blogs[i].name %></strong></a> </li>
+                      <a href="/blogs/<%= blogs[i].id %>" ><img src="<%= blogs[i].image %>" alt=""> </a>
+                      
+                    </div>
+                      <div> 
+                            <span><%= moment(blogs[i].createdAt).fromNow() %></span> 
+                            
+                        <div>
+                                <div>
+                                        <span class="badge label-primary"><i class="fas fa-thumbs-up"></i> <%= blogs[i].likes.length %></span>
+                                    </div>
+                   <% } %>
+                </ul>
                 </div>
             </div>
           

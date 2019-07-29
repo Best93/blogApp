@@ -16,17 +16,28 @@ img{
     
 
 }
+.col-md-4{
+    margin-bottom: 2rem;
+}
+
+
+li{
+    list-style: none;
+}
 footer{
-    margin-top: auto;
+   margin-top: 2rem;
+   color: antiquewhite;
 }
 .padding{
-    padding: .9rem;
+    padding: 1.9rem;
+    margin-bottom: 9rem;
 }
 .alert-danger,.alert-success{
     
     margin: 1rem auto;
     max-width: 400px;
 }
+
 
 .sign{
     margin: 0 auto;

@@ -6,14 +6,15 @@
                 <div class="jumbotron">
                                
                                 <div>  <h1>Blogs Posts</h1></div>
-                                <a href="/blogs/new" class="btn btn-primary">Add New Post</a>
+                                <a href="/blogs/new" ><i class="far fa-plus-square fa-2x"></i></a>
+                                <h6>Share Your Experience!</h6>
                 </div>
                 
                 <div class="content">
                                 <% blogs.forEach(function(blog) {%>
                                         <div class="row">
                                                 <div class="col-md">
-                                                   <div class="round-container"><img class="rounded" src= "<%= blog.image %> "></div>
+                                                   <div class="round-container"><a class="h5"  href="/blogs/<%= blog._id %>"><img class="rounded" src= "<%= blog.image %> "></a></div>
                                                 </div>
                                                 
                                                 <div class="col-md">

@@ -64,7 +64,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
         req.flash('error', err.message);
         return res.redirect('back');
       }
-      res.redirect('/blogs/' + blog.id);
+      res.redirect('/blogs' );
     });
   });
 });
@@ -72,7 +72,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
   
   // SHOW ROUTE 
   router.get("/:id", function(req, res){
-    Blog.findById(req.params.id).populate("comments").exec(function(err, foundBlog){
+    Blog.findById(req.params.id).populate("comments likes").exec(function(err, foundBlog){
       if(err){
   
         res.redirect("/blogs");
@@ -84,6 +84,37 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
     })
   });
   
+  // Campground Like Route
+router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
+  Blog.findById(req.params.id, function (err, foundBlog) {
+      if (err) {
+          console.log(err);
+          return res.redirect("/blogs");
+      }
+
+      // check if req.user._id exists in foundCampground.likes
+      var foundUserLike = foundBlog.likes.some(function (like) {
+          return like.equals(req.user._id);
+      });
+
+      if (foundUserLike) {
+          // user already liked, removing like
+          foundBlog.likes.pull(req.user._id);
+      } else {
+          // adding the new user like
+          foundBlog.likes.push(req.user);
+      }
+
+      foundBlog.save(function (err) {
+          if (err) {
+              console.log(err);
+              return res.redirect("/blogs");
+          }
+          return res.redirect("/blogs/" + foundBlog._id);
+      });
+  });
+});
+
   //EDIT ROUTE 
   router.get("/:id/edit",  middleware.checkBlog, function(req,res){
     //check if user logged In

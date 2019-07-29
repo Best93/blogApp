@@ -24,7 +24,7 @@ indexRoutes = require("./routes/index");
 
 
 
-//seedBlog();
+seedBlog();
 var url = process.env.DATABASEURL || "mongodb://localhost:27017/blogApp";
 mongoose.connect(url, {
   useNewUrlParser: true,

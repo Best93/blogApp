@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
+var Blog = require("../models/blogs");
 var User = require("../models/user");
 var middleware =require("../middleware");
 var multer = require('multer');
@@ -105,7 +106,17 @@ router.get("/",function(req, res){
           req.flash("error","Something went wrong.");
           res.redirect("/blogs");
         }
-        res.render("users/show", {user:foundUser});
+        Blog.find().where("author.id").equals(foundUser.id).exec(function(err, blogs){
+        {
+          if(err)
+          {
+            req.flash("error","Something went wrong.");
+            res.redirect("/blogs");
+          }
+
+        }
+        res.render("users/show", {user:foundUser, blogs:blogs});
+      });
       });
     });
 
