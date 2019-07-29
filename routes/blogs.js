@@ -45,7 +45,7 @@ router.get("/",  function(req, res){
   
   //CREATE - add new blog to DB
 router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
-  cloudinary.v2.uploader.upload(req.file.path, { moderation: "webpurify" },function(err, result) {
+  cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
     if(err) {
       req.flash('error', err.message);
       return res.redirect('back');
