@@ -16,6 +16,7 @@ img{
     
 
 }
+section{ margin-top: 5rem;}
 .col-md-4{
     margin-bottom: 2rem;
 }
@@ -34,7 +35,7 @@ footer{
 }
 .alert-danger,.alert-success{
     
-    margin: 1rem auto;
+    margin: 5rem auto;
     max-width: 400px;
 }
 
