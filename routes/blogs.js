@@ -8,6 +8,8 @@ var storage = multer.diskStorage({
     callback(null, Date.now() + file.originalname);
   }
 });
+
+//cloudinary config
 var imageFilter = function (req, file, cb) {
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
@@ -59,6 +61,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
       id: req.user._id,
       username: req.user.username
     }
+    //create blog with image
     Blog.create(req.body.blog, function(err, blog) {
       if (err) {
         req.flash('error', err.message);
@@ -86,6 +89,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
   
   // Campground Like Route
 router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
+  // look the blog by using their db id
   Blog.findById(req.params.id, function (err, foundBlog) {
       if (err) {
           console.log(err);
@@ -138,18 +142,23 @@ router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
         if(err){
             req.flash("error", err.message);
             res.redirect("back");
-        } else {
+        }
+        // destroy image on cloud first before uploaded the new
+         else {
             if (req.file) {
-              try {
+              try {   // destroy image on cloud first before uploaded the new
                   await cloudinary.v2.uploader.destroy(blog.imageId);
+                  //get the new image
                   var result = await cloudinary.v2.uploader.upload(req.file.path);
                   blog.imageId = result.public_id;
                   blog.image = result.secure_url;
               } catch(err) {
+                //show error if any and return user back to the prev page
                   req.flash("error", err.message);
                   return res.redirect("back");
               }
             }
+            //update blog with the new input and save to db
             blog.name = req.body.blog.name;
             blog.description = req.body.blog.description;
             blog.save();
@@ -162,17 +171,21 @@ router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
   
   //DELETE ROUTE
 router.delete('/:id', function(req, res) {
+  //find the desired blog
   Blog.findById(req.params.id, async function(err, blog) {
     if(err) {
       req.flash("error", err.message);
       return res.redirect("back");
     }
     try {
+      //delete image from cloud and from db
         await cloudinary.v2.uploader.destroy(blog.imageId);
         blog.remove();
         req.flash('success', 'Blog deleted successfully!');
         res.redirect('/blogs');
-    } catch(err) {
+    }
+    //catch error if any display it to users
+     catch(err) {
         if(err) {
           req.flash("error", err.message);
           return res.redirect("back");

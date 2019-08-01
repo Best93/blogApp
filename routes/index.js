@@ -10,6 +10,7 @@ var storage = multer.diskStorage({
     callback(null, Date.now() + file.originalname);
   }
 });
+// cloudinary config
 var imageFilter = function (req, file, cb) {
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
@@ -58,6 +59,7 @@ router.get("/",function(req, res){
         lastName: req.body.lastName,
         avatar : req.body.avatar
       });
+      //register the new user to db
       User.register(newUser, req.body.password, function(err, user) {
         if (err) {
           req.flash("error", err.message);
@@ -100,12 +102,14 @@ router.get("/",function(req, res){
 
     //user profile
     router.get("/users/:id", function(req,res){
+      //find user to display 
       User.findById(req.params.id, function(err, foundUser){
         if(err)
         {
           req.flash("error","Something went wrong.");
           res.redirect("/blogs");
         }
+        //find blog that relate to the current user
         Blog.find().where("author.id").equals(foundUser.id).exec(function(err, blogs){
         {
           if(err)
@@ -115,6 +119,7 @@ router.get("/",function(req, res){
           }
 
         }
+        //render user page
         res.render("users/show", {user:foundUser, blogs:blogs});
       });
       });

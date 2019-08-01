@@ -1,4 +1,6 @@
 
+<!-- This show a specific blog and its own components-->
+
 <% include ../partials/header %>
 
 
@@ -188,7 +190,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                      
+                      <!-- process the like array to display user and amount of likes-->
                     <% blog.likes.forEach(function(like) { %>
                         <tr>
                             <td><span class="badge"><i class="fas fa-user"></i></span> <%= like.username %></td>
